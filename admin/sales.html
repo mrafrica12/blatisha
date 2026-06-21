@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Manager — Latisha Blake Admin</title>
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Latisha Blake</h2>
+        <p class="sidebar-subtitle">Admin</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">Dashboard</a>
+        <a href="blog.html" class="nav-item">Blog</a>
+        <a href="sales.html" class="nav-item active">Sales</a>
+        <a href="leads.html" class="nav-item">Leads</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+          <div>
+            <h1>Sold Listings</h1>
+            <p class="subtitle">Showcase your closed sales</p>
+          </div>
+          <button class="btn btn-primary" onclick="toggleNewSaleForm()">+ New Sale</button>
+        </div>
+
+        <!-- New/Edit Form -->
+        <div id="saleForm" class="form-section" style="display: none; margin-bottom: 32px;">
+          <h2 style="margin-top: 0;">Add Sold Property</h2>
+
+          <form onsubmit="handleSaveSale(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="salePrice">Sale Price</label>
+                <input type="number" id="salePrice" placeholder="e.g., 450000" step="1000" required>
+              </div>
+
+              <div class="form-group">
+                <label for="saleDateSold">Date Sold</label>
+                <input type="date" id="saleDateSold" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="saleAddress">Address</label>
+              <input type="text" id="saleAddress" placeholder="e.g., 4545 Lionshead Circle" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="saleCity">City</label>
+                <input type="text" id="saleCity" placeholder="e.g., Lithonia" required>
+              </div>
+
+              <div class="form-group">
+                <label for="saleZip">ZIP Code</label>
+                <input type="text" id="saleZip" placeholder="e.g., 30038" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="saleBeds">Bedrooms</label>
+                <input type="number" id="saleBeds" placeholder="e.g., 4" min="1" required>
+              </div>
+
+              <div class="form-group">
+                <label for="saleBaths">Bathrooms</label>
+                <input type="number" id="saleBaths" placeholder="e.g., 3" step="0.5" min="1" required>
+              </div>
+
+              <div class="form-group">
+                <label for="saleSqft">Square Feet</label>
+                <input type="number" id="saleSqft" placeholder="e.g., 2800" step="100">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="saleImageUrl">Image URL</label>
+              <input type="text" id="saleImageUrl" placeholder="https://images.unsplash.com/...">
+            </div>
+
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">Save Sale</button>
+              <button type="button" class="btn btn-secondary" onclick="toggleNewSaleForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sales List -->
+        <div id="salesList">
+          <div class="empty-state">
+            <div class="empty-icon">🏠</div>
+            <div class="empty-title">No sales yet</div>
+            <div class="empty-description">Add your first sold property to showcase</div>
+            <button class="btn btn-primary" onclick="toggleNewSaleForm()">Add Sale</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/admin.js"></script>
+  <script>
+    // Check if logged in
+    if (!sessionStorage.getItem('adminLoggedIn')) {
+      window.location.href = 'login.html';
+    }
+
+    // Initialize with today's date
+    document.getElementById('saleDateSold').valueAsDate = new Date();
+
+    let sales = JSON.parse(localStorage.getItem('soldSales')) || [];
+
+    function toggleNewSaleForm() {
+      const form = document.getElementById('saleForm');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      if (form.style.display === 'block') {
+        document.getElementById('salePrice').focus();
+      } else {
+        clearSaleForm();
+      }
+    }
+
+    function clearSaleForm() {
+      document.getElementById('salePrice').value = '';
+      document.getElementById('saleDateSold').valueAsDate = new Date();
+      document.getElementById('saleAddress').value = '';
+      document.getElementById('saleCity').value = '';
+      document.getElementById('saleZip').value = '';
+      document.getElementById('saleBeds').value = '';
+      document.getElementById('saleBaths').value = '';
+      document.getElementById('saleSqft').value = '';
+      document.getElementById('saleImageUrl').value = '';
+    }
+
+    function handleSaveSale(e) {
+      e.preventDefault();
+
+      const sale = {
+        id: Date.now(),
+        price: parseInt(document.getElementById('salePrice').value),
+        dateSold: document.getElementById('saleDateSold').value,
+        address: document.getElementById('saleAddress').value,
+        city: document.getElementById('saleCity').value,
+        zip: document.getElementById('saleZip').value,
+        beds: parseInt(document.getElementById('saleBeds').value),
+        baths: parseFloat(document.getElementById('saleBaths').value),
+        sqft: document.getElementById('saleSqft').value ? parseInt(document.getElementById('saleSqft').value) : null,
+        imageUrl: document.getElementById('saleImageUrl').value || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80',
+        createdAt: new Date().toISOString()
+      };
+
+      sales.unshift(sale);
+      localStorage.setItem('soldSales', JSON.stringify(sales));
+
+      showAlert('Sale added successfully!', 'success');
+      clearSaleForm();
+      toggleNewSaleForm();
+      renderSales();
+    }
+
+    function deleteSale(id) {
+      if (confirm('Are you sure you want to delete this sale?')) {
+        sales = sales.filter(s => s.id !== id);
+        localStorage.setItem('soldSales', JSON.stringify(sales));
+        showAlert('Sale deleted', 'success');
+        renderSales();
+      }
+    }
+
+    function formatPrice(price) {
+      return '$' + price.toLocaleString();
+    }
+
+    function renderSales() {
+      const container = document.getElementById('salesList');
+
+      if (sales.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">🏠</div>
+            <div class="empty-title">No sales yet</div>
+            <div class="empty-description">Add your first sold property to showcase</div>
+            <button class="btn btn-primary" onclick="toggleNewSaleForm()">Add Sale</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = sales.map(sale => `
+        <div style="background: white; padding: 24px; border: 1px solid #E8E4DC; border-radius: 12px; margin-bottom: 16px; display: grid; grid-template-columns: 120px 1fr auto; gap: 24px; align-items: center;">
+          <div>
+            <img src="${sale.imageUrl}" alt="${sale.address}" style="width: 120px; height: 120px; border-radius: 8px; object-fit: cover;">
+          </div>
+          <div>
+            <p style="color: #A0A0A0; font-size: 13px; margin-bottom: 4px;">${new Date(sale.dateSold).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+            <h3 style="margin: 0 0 8px 0; font-size: 16px; color: #C9A84C;">${formatPrice(sale.price)}</h3>
+            <p style="margin: 0 0 4px 0; font-weight: 500;">${sale.address}</p>
+            <p style="margin: 0; color: #6B6B6B; font-size: 13px;">${sale.city}, GA ${sale.zip}</p>
+            <p style="margin: 8px 0 0 0; color: #A0A0A0; font-size: 13px;">${sale.beds} bd · ${sale.baths} ba${sale.sqft ? ' · ' + sale.sqft.toLocaleString() + ' sqft' : ''}</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <button class="btn btn-sm btn-secondary" onclick="editSale(${sale.id})">Edit</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteSale(${sale.id})">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function editSale(id) {
+      const sale = sales.find(s => s.id === id);
+      if (sale) {
+        document.getElementById('salePrice').value = sale.price;
+        document.getElementById('saleDateSold').value = sale.dateSold;
+        document.getElementById('saleAddress').value = sale.address;
+        document.getElementById('saleCity').value = sale.city;
+        document.getElementById('saleZip').value = sale.zip;
+        document.getElementById('saleBeds').value = sale.beds;
+        document.getElementById('saleBaths').value = sale.baths;
+        document.getElementById('saleSqft').value = sale.sqft || '';
+        document.getElementById('saleImageUrl').value = sale.imageUrl;
+
+        deleteSale(id);
+        toggleNewSaleForm();
+        document.getElementById('salePrice').focus();
+      }
+    }
+
+    // Initialize
+    renderSales();
+  </script>
+</body>
+</html>

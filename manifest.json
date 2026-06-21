@@ -1,0 +1,18 @@
+{
+  "name": "Latisha Blake Real Estate",
+  "short_name": "Latisha Blake",
+  "description": "Metro Atlanta REALTOR serving Covington, Atlanta, Decatur, Lawrenceville and surrounding Georgia communities.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FAFAF8",
+  "theme_color": "#1A1A2E",
+  "icons": [
+    {
+      "src": "assets/images/logo/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
