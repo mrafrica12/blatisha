@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Latisha Blake Admin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #FAFAF8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 360px;
+      background: white;
+      padding: 64px 32px;
+      border-radius: 12px;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1A1A2E;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #6B6B6B;
+      margin-bottom: 48px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1A1A2E;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #E8E4DC;
+      border-radius: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      transition: all 0.25s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #C9A84C;
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px 24px;
+      background: #1A1A2E;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      margin-top: 32px;
+    }
+
+    .login-btn:hover {
+      background: #0D0D1A;
+      transform: translateY(-1px);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .error {
+      color: #D32F2F;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .demo-note {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #E8E4DC;
+      font-size: 12px;
+      color: #6B6B6B;
+    }
+
+    .demo-note strong {
+      color: #1A1A2E;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Admin Panel</h1>
+    <p class="subtitle">Latisha Blake Real Estate</p>
+
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter admin password" required autofocus>
+        <div class="error" id="error">Invalid password. Try again.</div>
+      </div>
+
+      <button type="submit" class="login-btn">Sign In</button>
+    </form>
+
+    <div class="demo-note">
+      <strong>Demo:</strong> Password is "latisha2024"
+    </div>
+  </div>
+
+  <script>
+    // Simple password protection (for demo - use proper auth in production)
+    const ADMIN_PASSWORD = 'latisha2024';
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error');
+
+      if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        window.location.href = 'index.html';
+      } else {
+        errorEl.style.display = 'block';
+        document.getElementById('password').focus();
+      }
+    }
+
+    // Check if already logged in
+    if (sessionStorage.getItem('adminLoggedIn')) {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
