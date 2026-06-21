@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Watch Latisha Blake's video tours, market insights, and client success stories.">
+  <title>Video Showcase | Latisha Blake Real Estate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #FAFAF8;
+      --color-primary: #1A1A2E;
+      --color-gold: #C9A84C;
+      --color-white: #FFFFFF;
+      --color-border: #E8E4DC;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-primary);
+      background-color: var(--color-bg);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 100px 0;
+      text-align: center;
+      margin-top: 72px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #6B6B6B;
+      margin-bottom: 32px;
+    }
+
+    /* VIDEO GRID */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin: 64px 0;
+    }
+
+    .video-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .video-card:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.10);
+      transform: translateY(-4px);
+    }
+
+    .video-placeholder {
+      background: linear-gradient(135deg, #1A1A2E 0%, #2D3E5F 100%);
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      position: relative;
+    }
+
+    .video-placeholder::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: var(--color-gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.9;
+    }
+
+    .video-info {
+      padding: 24px;
+    }
+
+    .video-category {
+      display: inline-block;
+      background: var(--color-gold);
+      color: var(--color-primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .video-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      color: var(--color-primary);
+    }
+
+    .video-card p {
+      font-size: 0.9rem;
+      color: #6B6B6B;
+      margin-bottom: 16px;
+    }
+
+    .watch-btn {
+      background: var(--color-primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .watch-btn:hover {
+      background: var(--color-gold);
+      color: var(--color-primary);
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      text-align: center;
+      margin: 80px 0 40px;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-header p {
+      font-size: 1rem;
+      color: #6B6B6B;
+    }
+
+    .coming-soon-badge {
+      display: inline-block;
+      background: #FFD700;
+      color: var(--color-primary);
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 60px 0;
+        margin-top: 60px;
+      }
+
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>Video Showcase</h1>
+      <p>Watch market insights, property tours, and client success stories</p>
+    </div>
+  </section>
+
+  <!-- AGENT INTRODUCTIONS -->
+  <section class="container">
+    <div class="section-header">
+      <h2>Meet Latisha</h2>
+      <p>60-90 second introduction</p>
+    </div>
+
+    <div class="video-grid" style="margin-bottom: 60px;">
+      <div class="video-card">
+        <div class="video-placeholder">🎬</div>
+        <div class="video-info">
+          <div class="video-category">INTRODUCTION</div>
+          <h3>Welcome to My World</h3>
+          <p>Meet Latisha Blake and discover what makes her the Atlanta area's most trusted REALTOR®</p>
+          <button class="watch-btn">▶ Watch Video</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPERTY VIDEO TOURS -->
+  <section class="container">
+    <div class="section-header">
+      <h2>Property Video Tours</h2>
+      <p>3D walkthroughs and detailed property videos</p>
+    </div>
+
+    <div class="video-grid" style="margin-bottom: 60px;">
+      <div class="video-card">
+        <div class="video-placeholder">🏠</div>
+        <div class="video-info">
+          <div class="video-category">PROPERTY TOUR</div>
+          <h3>$450K Luxury Home - Covington</h3>
+          <p>Beautiful 4-bed, 3-bath with pool and mature landscaping. Full walkthrough and neighborhood tour.</p>
+          <button class="watch-btn">▶ Watch Tour</button>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">🏠</div>
+        <div class="video-info">
+          <div class="video-category">PROPERTY TOUR</div>
+          <h3>$520K Estate - Decatur</h3>
+          <p>Stunning 5-bed home in prestigious neighborhood. Complete video walkthrough and features breakdown.</p>
+          <button class="watch-btn">▶ Watch Tour</button>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">🏠</div>
+        <div class="video-info">
+          <div class="video-category">PROPERTY TOUR</div>
+          <h3>$380K Investment Property - Lawrenceville</h3>
+          <p>Perfect starter home with rental potential. See why investors love this property.</p>
+          <button class="watch-btn">▶ Watch Tour</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENT TESTIMONIALS -->
+  <section class="container">
+    <div class="section-header">
+      <h2>Client Success Stories</h2>
+      <p>Real clients, real results, real satisfaction</p>
+    </div>
+
+    <div class="video-grid" style="margin-bottom: 60px;">
+      <div class="video-card">
+        <div class="video-placeholder">👤</div>
+        <div class="video-info">
+          <div class="video-category">TESTIMONIAL</div>
+          <h3>Marcus T. - First-Time Buyer</h3>
+          <p>"Latisha made the process stress-free. She was with me every step of the way."</p>
+          <button class="watch-btn">▶ Watch Story</button>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">👤</div>
+        <div class="video-info">
+          <div class="video-category">TESTIMONIAL</div>
+          <h3>Diane W. - Home Seller</h3>
+          <p>"Multiple offers within a week, sold above asking. She knows the market inside out."</p>
+          <button class="watch-btn">▶ Watch Story</button>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">👤</div>
+        <div class="video-info">
+          <div class="video-category">TESTIMONIAL</div>
+          <h3>James & Priya R. - Relocating Buyers</h3>
+          <p>"Professional, responsive, and honest. Best real estate experience we've had."</p>
+          <button class="watch-btn">▶ Watch Story</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET UPDATES -->
+  <section class="container">
+    <div class="section-header">
+      <h2>Market Updates</h2>
+      <p>Weekly insights and trends (2-3 minutes)</p>
+    </div>
+
+    <div class="video-grid" style="margin-bottom: 60px;">
+      <div class="video-card">
+        <div class="video-placeholder">📊</div>
+        <div class="video-info">
+          <div class="video-category">MARKET UPDATE</div>
+          <h3>Market Monday - June 2026</h3>
+          <p>This week's market trends, price movements, and investment opportunities.</p>
+          <button class="watch-btn">▶ Watch Update</button>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">📊</div>
+        <div class="video-info">
+          <div class="video-category">MARKET UPDATE</div>
+          <h3>Best Time to Sell in ATL</h3>
+          <p>When should you list? Data-driven insights on seasonal trends and timing.</p>
+          <button class="watch-btn">▶ Watch Update</button>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">📊</div>
+        <div class="video-info">
+          <div class="video-category">MARKET UPDATE</div>
+          <h3>Investment Opportunities</h3>
+          <p>Hidden gems in metro Atlanta for the savvy investor. This month's top picks.</p>
+          <button class="watch-btn">▶ Watch Update</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATIONAL CONTENT -->
+  <section class="container">
+    <div class="section-header">
+      <h2>Buyer & Seller Guides</h2>
+      <p>Educational content to help you succeed</p>
+    </div>
+
+    <div class="video-grid" style="margin-bottom: 80px;">
+      <div class="video-card">
+        <div class="video-placeholder">📚</div>
+        <div class="video-info">
+          <div class="video-category">EDUCATION</div>
+          <h3>First-Time Buyer Guide</h3>
+          <p>Everything you need to know before making your biggest purchase.</p>
+          <button class="watch-btn">▶ Watch Guide</button>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">📚</div>
+        <div class="video-info">
+          <div class="video-category">EDUCATION</div>
+          <h3>Home Staging Secrets</h3>
+          <p>Simple tips to make your home irresistible to buyers.</p>
+          <button class="watch-btn">▶ Watch Guide</button>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-placeholder">📚</div>
+        <div class="video-info">
+          <div class="video-category">EDUCATION</div>
+          <h3>Closing Process Explained</h3>
+          <p>What to expect and how to prepare for closing day.</p>
+          <button class="watch-btn">▶ Watch Guide</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMING SOON -->
+  <section style="padding: 80px 0; background: white; border-top: 1px solid var(--color-border);">
+    <div class="container">
+      <div style="text-align: center;">
+        <h2 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 12px;">🎬 More Videos Coming</h2>
+        <p style="color: #6B6B6B; font-size: 1rem; margin-bottom: 24px;">
+          Subscribe to our YouTube channel for weekly market updates and property tours
+        </p>
+        <button style="background: var(--color-gold); color: var(--color-primary); border: none; padding: 14px 32px; border-radius: 4px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; cursor: pointer;">
+          Subscribe to Channel
+        </button>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
