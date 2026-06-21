@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Latisha Blake</title>
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Latisha Blake</h2>
+        <p class="sidebar-subtitle">Admin</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item active">Dashboard</a>
+        <a href="blog.html" class="nav-item">Blog</a>
+        <a href="sales.html" class="nav-item">Sales</a>
+        <a href="leads.html" class="nav-item">Leads</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content">
+        <h1>Welcome, Latisha</h1>
+        <p class="subtitle">Manage your real estate presence</p>
+
+        <div class="dashboard-grid">
+          <!-- Stats -->
+          <section class="stat-card">
+            <p class="stat-label">Blog Posts</p>
+            <p class="stat-number" id="blog-count">—</p>
+            <a href="blog.html" class="stat-link">Manage →</a>
+          </section>
+
+          <section class="stat-card">
+            <p class="stat-label">Sales Listed</p>
+            <p class="stat-number" id="sales-count">—</p>
+            <a href="sales.html" class="stat-link">Manage →</a>
+          </section>
+
+          <section class="stat-card">
+            <p class="stat-label">New Leads</p>
+            <p class="stat-number" id="leads-count">—</p>
+            <a href="leads.html" class="stat-link">View →</a>
+          </section>
+
+          <section class="stat-card">
+            <p class="stat-label">Last Updated</p>
+            <p class="stat-number" id="last-updated">—</p>
+            <p class="stat-desc">Just now</p>
+          </section>
+        </div>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+          <h2>Quick Actions</h2>
+          <div class="actions-grid">
+            <a href="blog.html?action=new" class="action-btn">
+              <span class="action-icon">✍️</span>
+              <span class="action-text">New Blog Post</span>
+            </a>
+            <a href="sales.html?action=new" class="action-btn">
+              <span class="action-icon">🏠</span>
+              <span class="action-text">Add New Sale</span>
+            </a>
+            <a href="leads.html" class="action-btn">
+              <span class="action-icon">📧</span>
+              <span class="action-text">View All Leads</span>
+            </a>
+            <a href="../index.html" class="action-btn" target="_blank">
+              <span class="action-icon">👁️</span>
+              <span class="action-text">View Website</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Instructions -->
+        <section class="instructions">
+          <h2>Getting Started</h2>
+          <div class="instruction-card">
+            <h3>📝 Blog Posts</h3>
+            <p>Write articles about real estate market trends, buying tips, and selling strategies. Posts appear on your website automatically.</p>
+          </div>
+          <div class="instruction-card">
+            <h3>🏠 Sales Listings</h3>
+            <p>Add completed sales to showcase your track record. Include price, address, beds/baths, and sale date for social proof.</p>
+          </div>
+          <div class="instruction-card">
+            <h3>📧 Leads</h3>
+            <p>View all form submissions from your website. Track contact info and respond to valuation requests and inquiries.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/admin.js"></script>
+  <script>
+    // Check if logged in
+    if (!sessionStorage.getItem('adminLoggedIn')) {
+      window.location.href = 'login.html';
+    }
+
+    // Load dashboard stats
+    function loadDashboardStats() {
+      // Placeholder - will be populated when backend is connected
+      document.getElementById('blog-count').textContent = '0';
+      document.getElementById('sales-count').textContent = '0';
+      document.getElementById('leads-count').textContent = '0';
+      document.getElementById('last-updated').textContent = new Date().toLocaleDateString();
+    }
+
+    loadDashboardStats();
+  </script>
+</body>
+</html>
