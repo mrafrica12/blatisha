@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Latisha Blake Admin</title>
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Latisha Blake</h2>
+        <p class="sidebar-subtitle">Admin</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item active">Dashboard</a>
+        <a href="blog.html" class="nav-item">Blog</a>
+        <a href="sales.html" class="nav-item">Sales</a>
+        <a href="leads.html" class="nav-item">Leads</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content">
+        <h1>Welcome, Latisha</h1>
+        <p class="subtitle">Manage your real estate presence</p>
+
+        <!-- Stats Grid -->
+        <div class="dashboard-grid">
+          <section class="stat-card">
+            <p class="stat-label">Blog Posts</p>
+            <p class="stat-number" id="blog-count">0</p>
+            <a href="blog.html" class="stat-link">Manage →</a>
+          </section>
+
+          <section class="stat-card">
+            <p class="stat-label">Sales Listed</p>
+            <p class="stat-number" id="sales-count">0</p>
+            <a href="sales.html" class="stat-link">Manage →</a>
+          </section>
+
+          <section class="stat-card">
+            <p class="stat-label">New Leads</p>
+            <p class="stat-number" id="leads-count">0</p>
+            <a href="leads.html" class="stat-link">View →</a>
+          </section>
+
+          <section class="stat-card">
+            <p class="stat-label">Last Updated</p>
+            <p class="stat-number" id="last-updated">—</p>
+            <p class="stat-desc">Just now</p>
+          </section>
+        </div>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+          <h2>Quick Actions</h2>
+          <div class="actions-grid">
+            <a href="blog.html" class="action-btn">
+              <span class="action-icon">✍️</span>
+              <span class="action-text">New Blog Post</span>
+            </a>
+            <a href="sales.html" class="action-btn">
+              <span class="action-icon">🏠</span>
+              <span class="action-text">Add New Sale</span>
+            </a>
+            <a href="leads.html" class="action-btn">
+              <span class="action-icon">📧</span>
+              <span class="action-text">View All Leads</span>
+            </a>
+            <a href="../index.html" class="action-btn" target="_blank">
+              <span class="action-icon">👁️</span>
+              <span class="action-text">View Website</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Instructions -->
+        <section class="instructions">
+          <h2>Getting Started</h2>
+          <div class="instruction-card">
+            <h3>📝 Blog Posts</h3>
+            <p>Write articles about real estate market trends, buying tips, and selling strategies. Posts appear on your website automatically.</p>
+          </div>
+          <div class="instruction-card">
+            <h3>🏠 Sales Listings</h3>
+            <p>Add completed sales to showcase your track record. Include price, address, beds/baths, and sale date for social proof.</p>
+          </div>
+          <div class="instruction-card">
+            <h3>📧 Leads</h3>
+            <p>View all form submissions from your website. Track contact info and respond to valuation requests and inquiries.</p>
+          </div>
+        </section>
+
+        <!-- Data Management -->
+        <section style="margin-top: 48px;">
+          <h2>Data Management</h2>
+          <div style="background: white; padding: 24px; border-radius: 12px; border: 1px solid #E8E4DC;">
+            <p style="margin-bottom: 16px; color: #6B6B6B;">Export your data or manage admin settings</p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="exportBlogsToJSON()">📥 Export Blog Posts</button>
+              <button class="btn btn-secondary btn-sm" onclick="exportSalesToJSON()">📥 Export Sales</button>
+              <button class="btn btn-secondary btn-sm" onclick="exportLeadsToCSV()">📥 Export Leads</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Info -->
+        <section style="margin-top: 32px; padding: 24px; background: #F0F4FF; border-radius: 12px; border-left: 4px solid #0071E3;">
+          <p style="margin: 0; font-size: 14px; color: #0051B3;">
+            <strong>💡 Tip:</strong> Your data is saved locally in your browser. Use the export feature to backup your content regularly.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="admin-bottom-nav show" id="admin-bottom-nav">
+      <div class="admin-nav-items">
+        <a href="dashboard.html" class="admin-nav-item active" data-page="dashboard" aria-label="Dashboard">
+          <span class="admin-nav-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="blog.html" class="admin-nav-item" data-page="blog" aria-label="Blog Posts">
+          <span class="admin-nav-icon">✍️</span>
+          <span>Blog</span>
+        </a>
+        <a href="sales.html" class="admin-nav-item" data-page="sales" aria-label="Sales">
+          <span class="admin-nav-icon">🏠</span>
+          <span>Sales</span>
+        </a>
+        <a href="leads.html" class="admin-nav-item" data-page="leads" aria-label="Leads">
+          <span class="admin-nav-icon">📧</span>
+          <span>Leads</span>
+        </a>
+        <button class="admin-nav-item" onclick="logout()" aria-label="Sign Out">
+          <span class="admin-nav-icon">🚪</span>
+          <span>Logout</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <script src="assets/js/admin.js"></script>
+  <script>
+    // Check if logged in
+    if (!sessionStorage.getItem('adminLoggedIn')) {
+      window.location.href = 'login.html';
+    }
+
+    const CRM_URL = 'https://script.google.com/macros/s/AKfycbwqnkiSiwlZEir6MDjSTk43KNw_4mmuYqLLafsE7adArL36vjAIuRn5HaoSaPclTH0drw/exec';
+
+    // Load stats from Google Apps Script
+    async function loadDashboardStats() {
+      try {
+        // Get leads from CRM to count stats
+        const leadsResponse = await fetch(`${CRM_URL}?action=leads&token=latisha2024portal`);
+        const leadsResult = await leadsResponse.json();
+
+        if (leadsResult.status === 'ok' && leadsResult.leads) {
+          const activeLeads = leadsResult.leads.filter(lead => lead.status === 'Active').length;
+          document.getElementById('leads-count').textContent = activeLeads;
+          document.getElementById('sales-count').textContent = '0';
+          document.getElementById('blog-count').textContent = localStorage.getItem('blogPosts') ? JSON.parse(localStorage.getItem('blogPosts')).length : 0;
+        }
+
+        document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      } catch (error) {
+        console.error('Error loading dashboard stats:', error);
+      }
+    }
+
+    // Initialize dashboard
+    loadDashboardStats();
+
+    // Refresh stats every 30 seconds
+    setInterval(loadDashboardStats, 30000);
+  </script>
+</body>
+</html>
