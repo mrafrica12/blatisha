@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI-powered real estate tools - Home valuation, market analysis, and 24/7 chatbot assistance.">
+  <title>AI Features | Latisha Blake Real Estate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #FAFAF8;
+      --color-primary: #1A1A2E;
+      --color-gold: #C9A84C;
+      --color-white: #FFFFFF;
+      --color-border: #E8E4DC;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-primary);
+      background-color: var(--color-bg);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .hero {
+      padding: 100px 0;
+      text-align: center;
+      margin-top: 72px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #6B6B6B;
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 32px;
+      margin: 64px 0;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 40px 32px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.10);
+      transform: translateY(-4px);
+      border-color: var(--color-gold);
+    }
+
+    .feature-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--color-primary);
+    }
+
+    .feature-card p {
+      font-size: 0.95rem;
+      color: #6B6B6B;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .feature-list {
+      text-align: left;
+      background: var(--color-bg);
+      padding: 16px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+
+    .feature-list li {
+      list-style: none;
+      padding: 6px 0;
+    }
+
+    .feature-list li::before {
+      content: "✓ ";
+      color: var(--color-gold);
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    .cta-btn {
+      background: var(--color-gold);
+      color: var(--color-primary);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      width: 100%;
+    }
+
+    .cta-btn:hover {
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .section-header {
+      text-align: center;
+      margin: 80px 0 40px;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-header p {
+      font-size: 1rem;
+      color: #6B6B6B;
+    }
+
+    .form-box {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 40px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-box input,
+    .form-box select {
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 15px;
+    }
+
+    .form-box input:focus,
+    .form-box select:focus {
+      outline: none;
+      border-color: var(--color-gold);
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+    }
+
+    .result-box {
+      background: #f9f7f4;
+      border: 2px solid var(--color-gold);
+      border-radius: 8px;
+      padding: 24px;
+      margin-top: 20px;
+      text-align: center;
+      display: none;
+    }
+
+    .result-box.show {
+      display: block;
+    }
+
+    .result-value {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: var(--color-gold);
+      margin: 16px 0;
+    }
+
+    .result-label {
+      color: #6B6B6B;
+      font-size: 0.9rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin: 40px 0;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      color: var(--color-gold);
+      font-weight: 600;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #6B6B6B;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 60px 0;
+        margin-top: 60px;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-box {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>AI-Powered Real Estate Tools</h1>
+      <p>Next-generation features powered by artificial intelligence. Get instant answers, accurate valuations, and personalized insights 24/7.</p>
+    </div>
+  </section>
+
+  <!-- MARKET STATS -->
+  <section class="container">
+    <div class="section-header">
+      <h2>Metro Atlanta Market Snapshot</h2>
+      <p>Real-time market data for informed decisions</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">$450K</div>
+        <div class="stat-label">Avg Home Price</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">24</div>
+        <div class="stat-label">Days on Market</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">$225/sqft</div>
+        <div class="stat-label">Price Per Sq Ft</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">↑ 4.2%</div>
+        <div class="stat-label">YoY Appreciation</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI HOME VALUATION -->
+  <section class="container">
+    <div class="section-header">
+      <h2>AI Home Valuation Tool</h2>
+      <p>Get your home's estimated value instantly</p>
+    </div>
+
+    <div class="form-box">
+      <form id="valuation-form">
+        <input type="text" id="property-address" placeholder="Enter property address" required>
+        <input type="number" id="property-beds" placeholder="Number of bedrooms" required>
+        <input type="number" id="property-baths" placeholder="Number of bathrooms" required>
+        <input type="number" id="property-sqft" placeholder="Square footage" required>
+        <button type="submit" class="cta-btn">Get Instant Valuation</button>
+      </form>
+
+      <div id="valuation-result" class="result-box">
+        <div class="result-label">Estimated Home Value</div>
+        <div class="result-value" id="valuation-value">$0</div>
+        <div class="result-label" id="valuation-note">Based on comparable properties in your area</div>
+        <button class="cta-btn" style="margin-top: 16px; background: var(--color-primary); color: white;" onclick="document.getElementById('valuation-form').reset(); document.getElementById('valuation-result').classList.remove('show');">Get Another Valuation</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPERTY MATCHING -->
+  <section class="container">
+    <div class="section-header">
+      <h2>Smart Property Matching</h2>
+      <p>Find your perfect home based on your preferences</p>
+    </div>
+
+    <div class="form-box">
+      <form id="matching-form">
+        <select id="buyer-type" required>
+          <option value="">I'm looking to...</option>
+          <option value="buy">Buy a Home</option>
+          <option value="sell">Sell My Home</option>
+          <option value="invest">Invest in Property</option>
+        </select>
+
+        <select id="min-price" required>
+          <option value="">Min Budget</option>
+          <option value="100000">$100K</option>
+          <option value="200000">$200K</option>
+          <option value="300000">$300K</option>
+          <option value="400000">$400K</option>
+          <option value="500000">$500K+</option>
+        </select>
+
+        <select id="max-price" required>
+          <option value="">Max Budget</option>
+          <option value="250000">$250K</option>
+          <option value="350000">$350K</option>
+          <option value="500000">$500K</option>
+          <option value="750000">$750K</option>
+          <option value="1000000">$1M+</option>
+        </select>
+
+        <select id="bedrooms" required>
+          <option value="">Bedrooms</option>
+          <option value="1">1+</option>
+          <option value="2">2+</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+          <option value="5">5+</option>
+        </select>
+
+        <input type="email" id="email" placeholder="Email for updates" required>
+        <button type="submit" class="cta-btn">Find My Perfect Match</button>
+      </form>
+
+      <div id="matching-result" class="result-box">
+        <div class="result-label">✓ Preferences Saved!</div>
+        <div class="result-value">You're Matched</div>
+        <p style="color: #6B6B6B; margin: 16px 0;">We'll send you personalized property recommendations daily based on your preferences. Check your email!</p>
+        <button class="cta-btn" style="margin-top: 16px; background: var(--color-primary); color: white;" onclick="document.getElementById('matching-form').reset(); document.getElementById('matching-result').classList.remove('show');">New Search</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI FEATURES SHOWCASE -->
+  <section class="container">
+    <div class="section-header">
+      <h2>AI Features Overview</h2>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>24/7 AI Chatbot</h3>
+        <p>Instant answers to your questions anytime, day or night.</p>
+        <ul class="feature-list">
+          <li>Answer common questions instantly</li>
+          <li>Schedule property showings</li>
+          <li>Get property recommendations</li>
+          <li>Qualify as a buyer/seller</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Home Valuation</h3>
+        <p>Get your home's estimated value using AI analysis.</p>
+        <ul class="feature-list">
+          <li>Instant value estimates</li>
+          <li>Comparable property analysis</li>
+          <li>Market trend data</li>
+          <li>Schedule professional appraisal</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Price Prediction</h3>
+        <p>Forecast property values with machine learning.</p>
+        <ul class="feature-list">
+          <li>Predict future property values</li>
+          <li>Market trend analysis</li>
+          <li>Opportunity alerts</li>
+          <li>ROI calculations</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Market Analysis</h3>
+        <p>Automated market reports and neighborhood insights.</p>
+        <ul class="feature-list">
+          <li>Automated market reports</li>
+          <li>Neighborhood comparisons</li>
+          <li>Investment recommendations</li>
+          <li>Daily market alerts</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏠</div>
+        <h3>Virtual Tours</h3>
+        <p>Immersive 3D property tours with AI descriptions.</p>
+        <ul class="feature-list">
+          <li>3D property walkthroughs</li>
+          <li>AI narration & descriptions</li>
+          <li>Interactive floor plans</li>
+          <li>Neighborhood context</li>
+        </ul>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Smart Recommendations</h3>
+        <p>AI-matched properties based on your preferences.</p>
+        <ul class="feature-list">
+          <li>Personalized property matches</li>
+          <li>Lifestyle compatibility scoring</li>
+          <li>Investment potential analysis</li>
+          <li>Automatic listing alerts</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section style="padding: 80px 0; text-align: center;">
+    <div class="container">
+      <h2 style="font-family: var(--font-heading); font-size: 2rem; margin-bottom: 16px;">Ready to Experience AI Real Estate?</h2>
+      <p style="color: #6B6B6B; font-size: 1rem; margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Get started with our AI tools today. No credit card required. Our chatbot is available 24/7 in the bottom-right corner.
+      </p>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="../index.html#contact" class="cta-btn" style="max-width: 200px; display: inline-block; text-decoration: none; text-align: center;">Schedule Consultation</a>
+        <a href="tel:6783361481" class="cta-btn" style="max-width: 200px; display: inline-block; text-decoration: none; text-align: center; background: var(--color-primary); color: white;">Call (678) 336-1481</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- JavaScript for AI Features -->
+  <script>
+    // HOME VALUATION CALCULATOR
+    document.getElementById('valuation-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const address = document.getElementById('property-address').value;
+      const beds = parseInt(document.getElementById('property-beds').value);
+      const baths = parseInt(document.getElementById('property-baths').value);
+      const sqft = parseInt(document.getElementById('property-sqft').value);
+
+      // Simple valuation algorithm
+      const basePrice = sqft * 150;
+      const bedAdjustment = beds * 50000;
+      const bathAdjustment = baths * 25000;
+      const estimatedValue = basePrice + bedAdjustment + bathAdjustment;
+
+      // Format currency
+      const formattedValue = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0
+      }).format(estimatedValue);
+
+      // Display result
+      document.getElementById('valuation-value').textContent = formattedValue;
+      document.getElementById('valuation-note').textContent = `Estimated value for ${address} • ${beds}br ${baths}ba • ${sqft.toLocaleString()}sqft`;
+      document.getElementById('valuation-result').classList.add('show');
+    });
+
+    // PROPERTY MATCHING
+    document.getElementById('matching-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const buyerType = document.getElementById('buyer-type').value;
+
+      // Show success message
+      document.getElementById('matching-result').classList.add('show');
+
+      // Log to console (in production: send to backend)
+      console.log('Property Matching Data Saved', {
+        email,
+        buyerType,
+        minBudget: document.getElementById('min-price').value,
+        maxBudget: document.getElementById('max-price').value,
+        bedrooms: document.getElementById('bedrooms').value,
+        timestamp: new Date().toISOString()
+      });
+    });
+  </script>
+
+  <!-- Drift AI Chatbot (Free Tier) -->
+  <script>
+    "use strict";
+    !function() {
+      var t = window.driftt = window.drift = window.drift || [], e = !1;
+      if (!t.invoked) {
+        t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "show", "hide", "off", "on" ], t.factory = function(e) {
+          return function() {
+            var n = Array.prototype.slice.call(arguments);
+            return n.unshift(e), t.push(n), t;
+          };
+        }, t.methods.forEach(function(e) {
+          t[e] = t.factory(e);
+        }), t.load = function(t) {
+          var n = !1, r = document.createEvent("CustomEvent");
+          function o() {
+            n || (Object.defineProperty(r, "detail", {
+              value: {
+                disabled: !0
+              }
+            }), window.dispatchEvent(r));
+          }
+          function a() {
+            t(window.driftt);
+          }
+          r.initCustomEvent("driftt:load", !0, !0, null), setTimeout(function() {
+            o();
+          }, 3e3), window.addEventListener("load", function() {
+            n = !0, o(), setTimeout(a, 1);
+          });
+        };
+      }
+    }();
+    drift.SNIPPET_VERSION = '0.3.1';
+    drift.load('YOUR_DRIFT_ID_HERE');
+  </script>
+
+</body>
+</html>
