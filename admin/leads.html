@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leads Dashboard — Latisha Blake Admin</title>
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Latisha Blake</h2>
+        <p class="sidebar-subtitle">Admin</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">Dashboard</a>
+        <a href="blog.html" class="nav-item">Blog</a>
+        <a href="sales.html" class="nav-item">Sales</a>
+        <a href="leads.html" class="nav-item active">Leads</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+          <div>
+            <h1>Leads</h1>
+            <p class="subtitle">View and manage form submissions</p>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <input type="text" id="searchInput" placeholder="Search leads..." style="padding: 10px 16px; border: 1px solid #E8E4DC; border-radius: 8px; font-size: 14px; width: 200px;">
+            <select id="filterSelect" style="padding: 10px 16px; border: 1px solid #E8E4DC; border-radius: 8px; font-size: 14px;">
+              <option value="">All Types</option>
+              <option value="valuation">Valuation</option>
+              <option value="contact">Contact</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Leads List -->
+        <div id="leadsList">
+          <div class="empty-state">
+            <div class="empty-icon">📧</div>
+            <div class="empty-title">No leads yet</div>
+            <div class="empty-description">Form submissions will appear here</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="admin-bottom-nav show" id="admin-bottom-nav">
+      <div class="admin-nav-items">
+        <a href="dashboard.html" class="admin-nav-item" data-page="dashboard" aria-label="Dashboard">
+          <span class="admin-nav-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="blog.html" class="admin-nav-item" data-page="blog" aria-label="Blog Posts">
+          <span class="admin-nav-icon">✍️</span>
+          <span>Blog</span>
+        </a>
+        <a href="sales.html" class="admin-nav-item" data-page="sales" aria-label="Sales">
+          <span class="admin-nav-icon">🏠</span>
+          <span>Sales</span>
+        </a>
+        <a href="leads.html" class="admin-nav-item active" data-page="leads" aria-label="Leads">
+          <span class="admin-nav-icon">📧</span>
+          <span>Leads</span>
+        </a>
+        <button class="admin-nav-item" onclick="logout()" aria-label="Sign Out">
+          <span class="admin-nav-icon">🚪</span>
+          <span>Logout</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <script src="assets/js/admin.js"></script>
+  <script>
+    // Check if logged in
+    if (!sessionStorage.getItem('adminLoggedIn')) {
+      window.location.href = 'login.html';
+    }
+
+    const CRM_URL = 'https://script.google.com/macros/s/AKfycbwqnkiSiwlZEir6MDjSTk43KNw_4mmuYqLLafsE7adArL36vjAIuRn5HaoSaPclTH0drw/exec';
+
+    let allLeads = [];
+    let filteredLeads = [];
+
+    // Load leads from Google Apps Script on page load
+    async function loadLeadsFromCRM() {
+      try {
+        const response = await fetch(`${CRM_URL}?action=getLeads`);
+        const result = await response.json();
+
+        if (result.status === 'success' && result.leads) {
+          allLeads = result.leads;
+          filteredLeads = [...allLeads];
+          renderLeads();
+
+          // Update dashboard counts
+          const activeCount = allLeads.filter(l => l.status === 'Active').length;
+          if (document.getElementById('leads-count')) {
+            document.getElementById('leads-count').textContent = activeCount;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading leads from CRM:', error);
+        // Fallback to empty state
+        renderLeads();
+      }
+    }
+
+    // Load leads when page loads
+    window.addEventListener('DOMContentLoaded', loadLeadsFromCRM);
+
+    // Show alert/notification
+    function showAlert(message, type = 'success') {
+      const alertDiv = document.createElement('div');
+      alertDiv.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 16px 20px;
+        background: ${type === 'success' ? '#D4EDDA' : type === 'error' ? '#F8D7DA' : '#D1ECF1'};
+        color: ${type === 'success' ? '#155724' : type === 'error' ? '#721C24' : '#0C5460'};
+        border-radius: 8px;
+        font-weight: 500;
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+      `;
+      alertDiv.textContent = message;
+      document.body.appendChild(alertDiv);
+      setTimeout(() => alertDiv.remove(), 3000);
+    }
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      filterLeads();
+    });
+
+    // Filter by type
+    document.getElementById('filterSelect').addEventListener('change', (e) => {
+      filterLeads();
+    });
+
+    function filterLeads() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const typeFilter = document.getElementById('filterSelect').value;
+
+      filteredLeads = allLeads.filter(lead => {
+        const matchesSearch =
+          lead.name.toLowerCase().includes(searchTerm) ||
+          lead.email.toLowerCase().includes(searchTerm) ||
+          lead.phone.toLowerCase().includes(searchTerm) ||
+          (lead.address && lead.address.toLowerCase().includes(searchTerm));
+
+        const matchesType = !typeFilter || lead.formType === typeFilter;
+
+        return matchesSearch && matchesType;
+      });
+
+      renderLeads();
+    }
+
+    async function updateLeadStatus(name, newStatus) {
+      try {
+        const response = await fetch(`${CRM_URL}?action=updateStatus&leadName=${encodeURIComponent(name)}&newStatus=${encodeURIComponent(newStatus)}`);
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          // Update local data
+          const lead = allLeads.find(l => l.name === name);
+          if (lead) {
+            lead.status = newStatus;
+            filterLeads();
+            showAlert('Status updated successfully!', 'success');
+          }
+        }
+      } catch (error) {
+        console.error('Error updating status:', error);
+        showAlert('Failed to update status', 'error');
+      }
+    }
+
+    function markAsContacted(id) {
+      // For future use - can track contacts locally
+      showAlert('Contact marked', 'success');
+    }
+
+    function deleteLead(id) {
+      if (confirm('Delete this lead? This cannot be undone.')) {
+        showAlert('Lead deletion not yet implemented', 'info');
+        // TODO: Implement delete via CRM API
+      }
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showAlert('Copied to clipboard!', 'success');
+      });
+    }
+
+    function renderLeads() {
+      const container = document.getElementById('leadsList');
+
+      if (filteredLeads.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">📧</div>
+            <div class="empty-title">No leads found</div>
+            <div class="empty-description">Try adjusting your search or filters</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filteredLeads.map(lead => `
+        <div style="background: white; padding: 24px; border: 1px solid #E8E4DC; border-radius: 12px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
+            <div style="flex: 1;">
+              <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                <span style="display: inline-block; background: ${lead.type === 'Valuation' ? '#FFF3CD' : '#D1ECF1'}; color: ${lead.type === 'Valuation' ? '#856404' : '#0C5460'}; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;">${lead.type}</span>
+                <select onchange="updateLeadStatus('${lead.name}', this.value)" style="padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid #E8E4DC; cursor: pointer;">
+                  <option value="Active" ${lead.status === 'Active' ? 'selected' : ''}>Active</option>
+                  <option value="Nurture" ${lead.status === 'Nurture' ? 'selected' : ''}>Nurture</option>
+                  <option value="Closed" ${lead.status === 'Closed' ? 'selected' : ''}>Closed</option>
+                  <option value="Lost" ${lead.status === 'Lost' ? 'selected' : ''}>Lost</option>
+                </select>
+              </div>
+              <h3 style="margin: 0 0 4px 0; font-size: 16px;">${lead.name}</h3>
+              <p style="margin: 0; color: #A0A0A0; font-size: 13px;">${lead.dateAdded || 'N/A'} · ${lead.source || 'Website'}</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; padding: 16px 0; border-top: 1px solid #E8E4DC; border-bottom: 1px solid #E8E4DC; margin: 16px 0;">
+            <div>
+              <p style="margin: 0; font-size: 12px; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; font-weight: 600;">Phone</p>
+              <p style="margin: 0; font-size: 15px; font-weight: 500;">
+                <a href="tel:${lead.phone}" style="color: #C9A84C; text-decoration: none;">${lead.phone}</a>
+                <button onclick="copyToClipboard('${lead.phone}')" style="background: none; border: none; color: #A0A0A0; cursor: pointer; font-size: 12px; margin-left: 8px;">📋</button>
+              </p>
+            </div>
+            <div>
+              <p style="margin: 0; font-size: 12px; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; font-weight: 600;">Email</p>
+              <p style="margin: 0; font-size: 15px; font-weight: 500;">
+                <a href="mailto:${lead.email}" style="color: #C9A84C; text-decoration: none;">${lead.email}</a>
+                <button onclick="copyToClipboard('${lead.email}')" style="background: none; border: none; color: #A0A0A0; cursor: pointer; font-size: 12px; margin-left: 8px;">📋</button>
+              </p>
+            </div>
+            ${lead.area ? `<div>
+              <p style="margin: 0; font-size: 12px; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; font-weight: 600;">Area of Interest</p>
+              <p style="margin: 0; font-size: 15px; font-weight: 500;">${lead.area}</p>
+            </div>` : ''}
+            ${lead.budget ? `<div>
+              <p style="margin: 0; font-size: 12px; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; font-weight: 600;">Budget</p>
+              <p style="margin: 0; font-size: 15px; font-weight: 500;">${lead.budget}</p>
+            </div>` : ''}
+          </div>
+          ${lead.notes ? `<div style="margin-top: 16px;">
+            <p style="margin: 0 0 8px 0; font-size: 12px; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Notes</p>
+            <p style="margin: 0; font-size: 14px; color: #1A1A2E; line-height: 1.5;">${lead.notes}</p>
+          </div>` : ''}
+        </div>`).join('');
+
+          ${lead.message ? `<div style="margin-top: 16px;">
+            <p style="margin: 0 0 8px 0; font-size: 12px; color: #A0A0A0; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Message</p>
+            <p style="margin: 0; font-size: 14px; color: #6B6B6B; line-height: 1.6;">${lead.message}</p>
+          </div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    // Override the form submission handler to save to localStorage
+    window.addEventListener('storage', () => {
+      allLeads = JSON.parse(localStorage.getItem('formLeads')) || [];
+      filterLeads();
+    });
+
+    // Initialize
+    renderLeads();
+  </script>
+</body>
+</html>
