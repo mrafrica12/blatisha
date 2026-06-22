@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore Covington, Atlanta & metro Georgia neighborhoods with Latisha Blake - Schools, amenities, price trends, and lifestyle guides.">
+  <meta name="keywords" content="Covington neighborhoods, Atlanta neighborhoods, real estate, schools, amenities">
+  <title>Neighborhood Explorer | Latisha Blake Real Estate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="../assets/images/logo/logo.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #FAFAF8;
+      --color-primary: #1A1A2E;
+      --color-gold: #C9A84C;
+      --color-white: #FFFFFF;
+      --color-border: #E8E4DC;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+      --space-md: 32px;
+      --space-lg: 64px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-primary);
+      background-color: var(--color-bg);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      z-index: 1000;
+      background: var(--color-white);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo {
+      width: auto;
+      height: 50px;
+      display: block;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex: 1;
+    }
+
+    .nav-link {
+      color: var(--color-primary);
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--color-gold);
+    }
+
+    .header-cta {
+      background: var(--color-gold);
+      color: var(--color-primary);
+      padding: 10px 18px;
+      border-radius: 2px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+    }
+
+    .nav-burger span {
+      width: 24px;
+      height: 2px;
+      background: var(--color-primary);
+      border-radius: 1px;
+    }
+
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 999;
+      background: var(--color-primary);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      padding: 48px 24px;
+    }
+
+    .nav-overlay.open {
+      display: flex;
+    }
+
+    .nav-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: transparent;
+      border: 0;
+      color: var(--color-white);
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .nav-overlay-link {
+      color: var(--color-white);
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .nav-overlay-link:hover {
+      color: var(--color-gold);
+    }
+
+    /* HERO */
+    .hero {
+      padding: 100px 0;
+      text-align: center;
+      margin-top: 72px;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: #6B6B6B;
+      margin-bottom: 32px;
+    }
+
+    /* NEIGHBORHOOD GRID */
+    .neighborhoods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 32px;
+      margin: 64px 0;
+    }
+
+    .neighborhood-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 32px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .neighborhood-card:hover {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.10);
+      transform: translateY(-4px);
+      border-color: var(--color-gold);
+    }
+
+    .neighborhood-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      color: var(--color-primary);
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      margin: 20px 0;
+      padding: 20px 0;
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .stat {
+      flex: 1;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      color: var(--color-gold);
+      font-weight: 600;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: #6B6B6B;
+      margin-top: 4px;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .feature-icon {
+      font-size: 1.3rem;
+    }
+
+    .feature-text {
+      flex: 1;
+    }
+
+    .cta-btn {
+      background: var(--color-gold);
+      color: var(--color-primary);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: all 0.25s ease;
+      width: 100%;
+    }
+
+    .cta-btn:hover {
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* COMING SOON BADGE */
+    .coming-soon {
+      display: inline-block;
+      background: #FFD700;
+      color: var(--color-primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .map-placeholder {
+      background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+      border-radius: 8px;
+      padding: 64px;
+      text-align: center;
+      margin: 32px 0;
+      color: #999;
+      font-size: 1rem;
+    }
+
+    /* ===== COMPARISON SLIDER ===== */
+    .comparison-section {
+      background: linear-gradient(135deg, rgba(201, 168, 76, 0.05) 0%, rgba(201, 168, 76, 0.02) 100%);
+      padding: 60px 0;
+      margin: 40px 0;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .comparison-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 0 16px;
+    }
+
+    .comparison-header h2 {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .comparison-header p {
+      color: #6B6B6B;
+      font-size: 1rem;
+    }
+
+    .comparison-slider-container {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    .comparison-slider {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 12px;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .comparison-slider:active {
+      cursor: grabbing;
+    }
+
+    .comparison-slider::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .comparison-slider::-webkit-scrollbar-track {
+      background: var(--color-border);
+      border-radius: 3px;
+    }
+
+    .comparison-slider::-webkit-scrollbar-thumb {
+      background: var(--color-gold);
+      border-radius: 3px;
+    }
+
+    .comparison-card {
+      flex: 0 0 calc(50% - 12px);
+      background: white;
+      border: 2px solid var(--color-border);
+      border-radius: 12px;
+      padding: 32px;
+      transition: all 0.3s ease;
+      min-width: 0;
+    }
+
+    .comparison-card:hover {
+      border-color: var(--color-gold);
+      box-shadow: 0 8px 32px rgba(201, 168, 76, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .comparison-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      color: var(--color-primary);
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .comparison-row:last-child {
+      border-bottom: none;
+    }
+
+    .comparison-label {
+      font-size: 0.9rem;
+      color: #6B6B6B;
+      font-weight: 500;
+    }
+
+    .comparison-value {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      color: var(--color-gold);
+      font-weight: 600;
+    }
+
+    .comparison-slider-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding: 0 16px;
+    }
+
+    .comparison-nav-btn {
+      background: var(--color-gold);
+      color: var(--color-primary);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .comparison-nav-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.4);
+    }
+
+    .comparison-nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .comparison-instruction {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #6B6B6B;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .site-header {
+        height: 60px;
+      }
+
+      .logo {
+        height: 42px;
+      }
+
+      .header-nav,
+      .header-cta {
+        display: none;
+      }
+
+      .nav-burger {
+        display: flex;
+      }
+
+      .nav-overlay {
+        top: 60px;
+      }
+
+      .hero {
+        padding: 60px 0;
+        margin-top: 60px;
+      }
+
+      .neighborhoods-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-card {
+        flex: 0 0 100%;
+      }
+
+      .comparison-header h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .comparison-section {
+        padding: 40px 0;
+        margin: 20px 0;
+      }
+
+      .comparison-header {
+        margin-bottom: 24px;
+        padding: 0 12px;
+      }
+
+      .comparison-header h2 {
+        font-size: 1.3rem;
+      }
+
+      .comparison-card {
+        padding: 20px;
+        flex: 0 0 100%;
+      }
+
+      .comparison-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .comparison-value {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-container">
+      <a href="../index.html#hero" aria-label="Latisha Blake home">
+        <img src="../assets/images/logo/logo.svg" alt="Latisha Blake REALTOR®" class="logo">
+      </a>
+      <nav class="header-nav" aria-label="Main navigation">
+        <a href="../index.html#hero" class="nav-link">Home</a>
+        <a href="../index.html#search" class="nav-link">Search</a>
+        <a href="../index.html#about" class="nav-link">About</a>
+        <a href="../index.html#communities" class="nav-link">Communities</a>
+        <a href="../index.html#listings" class="nav-link">Listings</a>
+        <a href="../index.html#blog" class="nav-link">Blog</a>
+        <a href="../index.html#contact" class="nav-link">Contact</a>
+      </nav>
+      <a href="tel:6783361481" class="header-cta">Call (678) 336-1481</a>
+      <button class="nav-burger" type="button" aria-label="Open menu" aria-controls="nav-overlay" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="nav-overlay" id="nav-overlay" aria-label="Mobile navigation" aria-hidden="true">
+    <button class="nav-close" type="button" aria-label="Close menu">×</button>
+    <a href="../index.html#hero" class="nav-overlay-link">Home</a>
+    <a href="../index.html#search" class="nav-overlay-link">Search</a>
+    <a href="../index.html#about" class="nav-overlay-link">About</a>
+    <a href="../index.html#communities" class="nav-overlay-link">Communities</a>
+    <a href="../index.html#listings" class="nav-overlay-link">Listings</a>
+    <a href="../index.html#blog" class="nav-overlay-link">Blog</a>
+    <a href="../index.html#contact" class="nav-overlay-link">Contact</a>
+    <a href="tel:6783361481" class="header-cta">Call (678) 336-1481</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>Explore Metro Atlanta Neighborhoods</h1>
+      <p>Discover the perfect neighborhood for your lifestyle and investment</p>
+    </div>
+  </section>
+
+  <!-- COMPARISON SLIDER -->
+  <section class="comparison-section">
+    <div class="container">
+      <div class="comparison-header">
+        <h2>Compare Neighborhoods</h2>
+        <p>Swipe or drag to compare neighborhoods side-by-side</p>
+      </div>
+
+      <div class="comparison-slider-container">
+        <div class="comparison-slider" id="comparisonSlider">
+          <!-- Covington vs Decatur -->
+          <div class="comparison-card">
+            <h3>Covington vs Decatur</h3>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Covington Avg Price</div>
+                <div class="comparison-value">$385K</div>
+              </div>
+              <div>
+                <div class="comparison-label">Decatur Avg Price</div>
+                <div class="comparison-value">$520K</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Covington Walk Score</div>
+                <div class="comparison-value">72</div>
+              </div>
+              <div>
+                <div class="comparison-label">Decatur Walk Score</div>
+                <div class="comparison-value">85</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Covington Appreciation</div>
+                <div class="comparison-value">↑ 3.2%</div>
+              </div>
+              <div>
+                <div class="comparison-label">Decatur Appreciation</div>
+                <div class="comparison-value">↑ 5.1%</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Covington Days on Market</div>
+                <div class="comparison-value">28 days</div>
+              </div>
+              <div>
+                <div class="comparison-label">Decatur Days on Market</div>
+                <div class="comparison-value">18 days</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decatur vs Lawrenceville -->
+          <div class="comparison-card">
+            <h3>Decatur vs Lawrenceville</h3>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Decatur Avg Price</div>
+                <div class="comparison-value">$520K</div>
+              </div>
+              <div>
+                <div class="comparison-label">Lawrenceville Avg Price</div>
+                <div class="comparison-value">$450K</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Decatur Walk Score</div>
+                <div class="comparison-value">85</div>
+              </div>
+              <div>
+                <div class="comparison-label">Lawrenceville Walk Score</div>
+                <div class="comparison-value">68</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Decatur Appreciation</div>
+                <div class="comparison-value">↑ 5.1%</div>
+              </div>
+              <div>
+                <div class="comparison-label">Lawrenceville Appreciation</div>
+                <div class="comparison-value">↑ 4.8%</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Decatur Days on Market</div>
+                <div class="comparison-value">18 days</div>
+              </div>
+              <div>
+                <div class="comparison-label">Lawrenceville Days on Market</div>
+                <div class="comparison-value">22 days</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Covington vs Lawrenceville -->
+          <div class="comparison-card">
+            <h3>Covington vs Lawrenceville</h3>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Covington Avg Price</div>
+                <div class="comparison-value">$385K</div>
+              </div>
+              <div>
+                <div class="comparison-label">Lawrenceville Avg Price</div>
+                <div class="comparison-value">$450K</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Covington Walk Score</div>
+                <div class="comparison-value">72</div>
+              </div>
+              <div>
+                <div class="comparison-label">Lawrenceville Walk Score</div>
+                <div class="comparison-value">68</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Covington Appreciation</div>
+                <div class="comparison-value">↑ 3.2%</div>
+              </div>
+              <div>
+                <div class="comparison-label">Lawrenceville Appreciation</div>
+                <div class="comparison-value">↑ 4.8%</div>
+              </div>
+            </div>
+            <div class="comparison-row">
+              <div>
+                <div class="comparison-label">Covington Days on Market</div>
+                <div class="comparison-value">28 days</div>
+              </div>
+              <div>
+                <div class="comparison-label">Lawrenceville Days on Market</div>
+                <div class="comparison-value">22 days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="comparison-slider-nav">
+        <button class="comparison-nav-btn" id="prevBtn" onclick="scrollComparison(-1)">←</button>
+        <button class="comparison-nav-btn" id="nextBtn" onclick="scrollComparison(1)">→</button>
+      </div>
+      <p class="comparison-instruction">💡 Drag or swipe to compare. Click arrows to navigate.</p>
+    </div>
+  </section>
+
+  <!-- NEIGHBORHOODS -->
+  <section class="container">
+    <div class="neighborhoods-grid">
+
+      <!-- COVINGTON -->
+      <div class="neighborhood-card">
+        <span class="coming-soon">🔨 Interactive Features Coming Soon</span>
+        <h3>Covington</h3>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">$385K</div>
+            <div class="stat-label">Avg Price</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">28</div>
+            <div class="stat-label">Days on Market</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">↑ 3.2%</div>
+            <div class="stat-label">YoY Change</div>
+          </div>
+        </div>
+
+        <div class="features">
+          <div class="feature-item">
+            <span class="feature-icon">🏫</span>
+            <span class="feature-text">Excellent schools nearby</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🌳</span>
+            <span class="feature-text">Beautiful parks & trails</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🛍️</span>
+            <span class="feature-text">Downtown shopping district</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🚗</span>
+            <span class="feature-text">Easy highway access</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📍</span>
+            <span class="feature-text">Walk Score: 72 (Very Walkable)</span>
+          </div>
+        </div>
+
+        <button class="cta-btn">Explore Covington</button>
+      </div>
+
+      <!-- DECATUR -->
+      <div class="neighborhood-card">
+        <span class="coming-soon">🔨 Interactive Features Coming Soon</span>
+        <h3>Decatur</h3>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">$520K</div>
+            <div class="stat-label">Avg Price</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">18</div>
+            <div class="stat-label">Days on Market</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">↑ 5.1%</div>
+            <div class="stat-label">YoY Change</div>
+          </div>
+        </div>
+
+        <div class="features">
+          <div class="feature-item">
+            <span class="feature-icon">🏫</span>
+            <span class="feature-text">Top-rated schools</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🌳</span>
+            <span class="feature-text">Village parks & town square</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🍽️</span>
+            <span class="feature-text">Vibrant restaurant scene</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎭</span>
+            <span class="feature-text">Arts & cultural events</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📍</span>
+            <span class="feature-text">Walk Score: 85 (Very Walkable)</span>
+          </div>
+        </div>
+
+        <button class="cta-btn">Explore Decatur</button>
+      </div>
+
+      <!-- LAWRENCEVILLE -->
+      <div class="neighborhood-card">
+        <span class="coming-soon">🔨 Interactive Features Coming Soon</span>
+        <h3>Lawrenceville</h3>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">$450K</div>
+            <div class="stat-label">Avg Price</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">22</div>
+            <div class="stat-label">Days on Market</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">↑ 4.8%</div>
+            <div class="stat-label">YoY Change</div>
+          </div>
+        </div>
+
+        <div class="features">
+          <div class="feature-item">
+            <span class="feature-icon">🏫</span>
+            <span class="feature-text">Growing school district</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🌳</span>
+            <span class="feature-text">Lake access & trails</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🛍️</span>
+            <span class="feature-text">Shopping centers nearby</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">👨‍👩‍👧‍👦</span>
+            <span class="feature-text">Family-friendly community</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📍</span>
+            <span class="feature-text">Walk Score: 68 (Somewhat Walkable)</span>
+          </div>
+        </div>
+
+        <button class="cta-btn">Explore Lawrenceville</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMING SOON SECTION -->
+  <section style="padding: 80px 0; text-align: center;">
+    <div class="container">
+      <h2 style="font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 16px;">🔨 Interactive Features Coming Soon</h2>
+      <p style="font-size: 1.1rem; color: #6B6B6B; margin-bottom: 32px;">
+        We're building an immersive neighborhood experience with:
+      </p>
+
+      <div class="neighborhoods-grid" style="margin-top: 32px;">
+        <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 24px;">
+          <div style="font-size: 2.5rem; margin-bottom: 12px;">🗺️</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 8px;">Interactive Map</h3>
+          <p style="color: #6B6B6B; font-size: 0.9rem;">Schools, parks, restaurants, transit - all on one map</p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 24px;">
+          <div style="font-size: 2.5rem; margin-bottom: 12px;">📊</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 8px;">Price Trends</h3>
+          <p style="color: #6B6B6B; font-size: 0.9rem;">Historical data & predictions for smart investing</p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 24px;">
+          <div style="font-size: 2.5rem; margin-bottom: 12px;">👥</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 8px;">Demographics</h3>
+          <p style="color: #6B6B6B; font-size: 0.9rem;">Age, income, lifestyle data for your perfect fit</p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 24px;">
+          <div style="font-size: 2.5rem; margin-bottom: 12px;">🚶</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 8px;">Walk Scores</h3>
+          <p style="color: #6B6B6B; font-size: 0.9rem;">Walkability ratings & transit accessibility</p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 24px;">
+          <div style="font-size: 2.5rem; margin-bottom: 12px;">📸</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 8px;">Virtual Tours</h3>
+          <p style="color: #6B6B6B; font-size: 0.9rem;">360° neighborhood walkthrough videos</p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 24px;">
+          <div style="font-size: 2.5rem; margin-bottom: 12px;">💬</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.3rem; margin-bottom: 8px;">Lifestyle Guide</h3>
+          <p style="color: #6B6B6B; font-size: 0.9rem;">Real stories from current residents</p>
+        </div>
+      </div>
+
+      <button class="cta-btn" style="width: auto; max-width: 300px; margin-top: 40px;">
+        Get Notified When Ready
+      </button>
+    </div>
+  </section>
+
+  <script>
+    // ===== COMPARISON SLIDER FUNCTIONALITY =====
+    const comparisonSlider = document.getElementById('comparisonSlider');
+    if (comparisonSlider) {
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      // Drag functionality
+      comparisonSlider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        comparisonSlider.style.cursor = 'grabbing';
+        startX = e.pageX - comparisonSlider.offsetLeft;
+        scrollLeft = comparisonSlider.scrollLeft;
+      });
+
+      comparisonSlider.addEventListener('mouseleave', () => {
+        isDown = false;
+        comparisonSlider.style.cursor = 'grab';
+      });
+
+      comparisonSlider.addEventListener('mouseup', () => {
+        isDown = false;
+        comparisonSlider.style.cursor = 'grab';
+      });
+
+      comparisonSlider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - comparisonSlider.offsetLeft;
+        const walk = (x - startX) * 1;
+        comparisonSlider.scrollLeft = scrollLeft - walk;
+      });
+
+      // Touch support for mobile
+      comparisonSlider.addEventListener('touchstart', (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - comparisonSlider.offsetLeft;
+        scrollLeft = comparisonSlider.scrollLeft;
+      });
+
+      comparisonSlider.addEventListener('touchend', () => {
+        isDown = false;
+      });
+
+      comparisonSlider.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - comparisonSlider.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        comparisonSlider.scrollLeft = scrollLeft - walk;
+        updateNavigationButtons();
+      });
+
+      // Scroll button functionality
+      window.scrollComparison = function(direction) {
+        const cardWidth = comparisonSlider.querySelector('.comparison-card').offsetWidth + 24;
+        comparisonSlider.scrollLeft += direction * cardWidth;
+        setTimeout(updateNavigationButtons, 300);
+      };
+
+      // Update button states
+      function updateNavigationButtons() {
+        const maxScroll = comparisonSlider.scrollWidth - comparisonSlider.clientWidth;
+        prevBtn.disabled = comparisonSlider.scrollLeft <= 0;
+        nextBtn.disabled = comparisonSlider.scrollLeft >= maxScroll - 10;
+      }
+
+      // Update buttons on scroll
+      comparisonSlider.addEventListener('scroll', updateNavigationButtons);
+
+      // Initialize buttons
+      updateNavigationButtons();
+    }
+
+    // ===== HAMBURGER MENU =====
+    const burger = document.querySelector('.nav-burger');
+    const overlay = document.getElementById('nav-overlay');
+    const closeButton = document.querySelector('.nav-close');
+
+    function setMenuOpen(isOpen) {
+      overlay.classList.toggle('open', isOpen);
+      burger.setAttribute('aria-expanded', String(isOpen));
+      overlay.setAttribute('aria-hidden', String(!isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    burger.addEventListener('click', () => setMenuOpen(!overlay.classList.contains('open')));
+    closeButton.addEventListener('click', () => setMenuOpen(false));
+    overlay.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setMenuOpen(false));
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    });
+  </script>
+</body>
+</html>
